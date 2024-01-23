@@ -1,0 +1,28 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+    <style>
+    body{
+        background-color: #151515;
+    }
+    </style>
+    <div class="leaderboard">
+        <h1>Доска почета</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Количество фильмов</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in leaderboard_data %}
+                    <tr>
+                        <td>{{ data.user.username }}</td>
+                        <td>{{ data.movie_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

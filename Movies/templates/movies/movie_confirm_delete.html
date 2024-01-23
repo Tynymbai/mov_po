@@ -1,0 +1,22 @@
+{% extends "movies/base.html" %}
+    {% block content %}
+    <style>
+        .main-delete{
+            color: black;
+        }
+    </style>
+    <div class="content-section main-delete">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend>Удаление фильма</legend>
+                <h2>Вы уверены, что хотите удалить фильм?"{{ movie.title }}"</h2>
+            </fieldset>
+            <div class="form-group">
+                <button type="submit">Да, хочу удалить</button>
+                <a href="{% url 'movie_detail' movie.id %}">Отмена</a>
+            </div>
+        </form>
+    </div>
+    <p style="padding-top: 90px;"></p>
+{% endblock content %}

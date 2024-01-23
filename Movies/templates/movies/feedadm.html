@@ -1,0 +1,31 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+    body {
+        background-color: #151515;
+        position: relative;
+        text-align: center;
+        color: #fff;
+    }
+    </style>
+    <div class="comcom111">
+    <h2>Список фидбэков</h2>
+  {% for feedback in feedbacks %}
+    <div class="profile">
+            <div class="card" onClick="view()">
+              <div class="imgBox">
+                <img src="{%static "movies/profile.jpg" %}" alt="" />
+              </div>
+              <div class="detail">
+                <label class="name">{{ feedback.message }}</label>
+                <label class="job">{{ feedback.name }} в {{ feedback.created_at|date:"F d, Y H:i" }}</label>
+                  <label class="job">Почта пользователя: {{ feedback.email }}</label>
+              </div>
+            </div>
+          </div>
+  {% empty %}
+    <p>Нет фидбэков</p>
+  {% endfor %}
+    </div>
+{% endblock %}

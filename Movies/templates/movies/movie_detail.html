@@ -1,0 +1,177 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css');
+
+*{
+	font-family: 'Open Sans', 'sans-serif', 'FontAwesome';
+}
+
+.wrapper111 {
+    position: relative;
+	width: 320px;
+	left: 50%;
+	margin-left: -160px;
+	top: 50%;
+    margin-bottom: 150px;
+}
+
+.siginin {
+    height: 90px;
+	width: 300px;
+	border-radius: 8px;
+	position: relative;
+}
+
+.siginin label {
+    color: #fff;
+}
+
+.siginin textarea:first-of-type {
+	border-top-right-radius: 8px;
+	border-top-left-radius: 8px;
+}
+.siginin textarea:last-of-type {
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.siginin textarea, .siginin button[type="submit"]{
+	background: rgb(28, 30, 33);
+	box-shadow: inset -100px -100px 0 rgb(28, 30, 33); /*Prevent yellow autofill color*/
+	color: rgb(52, 56, 61);
+}
+{#.siginin textarea{#}
+{#	position: relative;#}
+{#	display: block;#}
+{#	width: 280px;#}
+{#	height: 45px;#}
+{#	border: 0;#}
+{#	outline: 0;#}
+{#	top: -2px;#}
+{#	padding: 0 0 0 20px;#}
+{#	font-weight: 700;#}
+{#}#}
+.siginin textarea:focus{
+	color: rgb(255, 255, 255);
+}
+.siginin button[type="submit"]{
+	display: block;
+	position: absolute;
+	width: 52px;
+	height: 52px;
+	color: rgb(52, 56, 61);
+	border-radius: 50px;
+	outline: 0;
+	z-index: 2;
+	top: 19px;
+	right: -24px;
+	border: 6px solid rgb(52, 56, 61);
+	font-size: 25px;
+	text-indent: 0px;
+	padding-left: 9px;
+	padding-bottom: 3px;
+	text-align: center;
+}
+.siginin button[type="submit"]:hover{
+	color: rgb(0, 126, 165);
+	text-shadow: 0 0 10px rgb(0, 126, 165);
+	cursor: pointer;
+}
+    </style>
+
+<div class="container1">
+    <div class="poster">
+      <img src="{{ movie.image.url }}" alt="{{ movie.title }}" />
+    </div>
+    <div class="info">
+      <div class="movie-title">{{ movie.title }}</div>
+      <div class="movie-detail">
+        <div class="set">
+          <label>Дата выхода:</label>
+          <span>{{ movie.release }}</span>
+        </div>
+        <div class="set">
+          <label>Время просмотра:</label>
+          <span>{{ movie.time }} минут</span>
+        </div>
+        <div class="set">
+          <label>Рейтинг:</label>
+          <span>{{ movie.rating }}</span>
+        </div>
+      </div>
+      <div class="movie-description">
+        {{ movie.description }}
+      </div>
+      <div class="movie-cast">
+        <div class="header">Подробная информация</div>
+        <div class="list">
+            <div class="cast">
+              <label>Язык оригинала:</label>
+              <label>{{ movie.language }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>Бюджет:</label>
+              <label>${{ movie.budget }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>В главных ролях:</label>
+              <label>{{ movie.cast }}</label>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="comcom">
+
+        <fieldset>
+        <p>Благодарим <strong>{{ movie.created_by }}</strong> за вклад</p>
+        </fieldset>
+        {% if movie.created_by == user %}
+              <div>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'movie-delete' movie.id %}">Удалить</a>
+              </div>
+            {% endif %}
+
+      <h2>Комментарий</h2>
+        {% if user.is_authenticated %}
+            <h2>Добавить комментарий</h2>
+            <div class="wrapper111">
+            <form class="siginin" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">&#xf0da;</button>
+            </form>
+            </div>
+        {% else %}
+            <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a> чтобы добавить комментарий.</p>
+      {% endif %}
+        {% for comment in comments %}
+          <div class="profile">
+            <div class="card" onClick="view()">
+              <div class="imgBox">
+                <img src="{%static "movies/profile.jpg" %}" alt="" />
+              </div>
+              <div class="detail">
+                <label class="name">{{ comment.text }}</label>
+                <label class="job">{{ comment.user.username }} в {{ comment.created_at|date:"F d, Y H:i" }}</label>
+              </div>
+            </div>
+          </div>
+      {% empty %}
+        <p>Комментариев нет.</p>
+      {% endfor %}
+
+    </div>
+
+
+  {% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+
+    <style>
+    .trailerdb {
+        background-color: #151515;
+        position: absolute;
+        min-width: 100%;
+    }
+    .trailerdb iframe {
+        position: relative;
+        left: 30%;
+    }
+    </style>
+
+<div class="container1">
+    <div class="poster">
+      <img src="{{ movie.poster_path }}" alt="{{ movie.title }}" />
+    </div>
+    <div class="info">
+      <div class="movie-title">{{ movie.title }}</div>
+      <div class="movie-detail">
+        <div class="set">
+          <label>Дата выхода:</label>
+          <span>{{ movie.release_date }}</span>
+        </div>
+        <div class="set">
+          <label>Время просмотра:</label>
+          <span>{{ movie.runtime }} минут</span>
+        </div>
+        <div class="set">
+          <label>Рейтинг:</label>
+          <span>{{ movie.vote_average }}</span>
+        </div>
+      </div>
+      <div class="movie-description">
+        {{ movie.overview }}
+      </div>
+      <div class="movie-cast">
+        <div class="header">Подробная информация</div>
+        <div class="list">
+          <div class="cast">
+            <label>Оригинальное название: {{ movie.original_title }}</label>
+          </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>Статус: {{ movie.status }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>Язык оригинала: {{ movie.original_language }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>Бюджет: ${{ movie.budget|floatformat:"2" }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>Сборы: ${{ movie.revenue|floatformat:"2" }}</label>
+            </div>
+        </div>
+        <div class="list">
+            <div class="cast">
+              <label>В главных ролях: {{ movie.cast|join:", " }} </label>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="trailerdb">
+{% if trailer_url %}
+    <iframe width="560" height="315" src="{{ trailer_url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+{% else %}
+    <p>К сожалению нет трейлера!</p>
+  {% endif %}
+</div>
+
+  {% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+  <h1>Добавить в избранные</h1>
+  <p>Вы уверены, что хотите добавить "{{ movie.title }}" в избранные?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Добавить</button>
+  </form>
+{% endblock %}
